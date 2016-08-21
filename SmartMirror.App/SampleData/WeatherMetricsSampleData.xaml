@@ -1,0 +1,19 @@
+﻿<Models:WeatherMetrics
+    xmlns:Models="using:SmartMirror.App.Models"
+    xmlns:System="using:System"
+    Cloudiness="95"
+    Description="light rain"
+    Humidity="38"
+    IconName="01d"
+    Temp="20"
+    WindSpeed="1">
+    <Models:WeatherMetrics.DateTime>
+        <System:DateTimeOffset />
+    </Models:WeatherMetrics.DateTime>
+    <Models:WeatherMetrics.SunriseTime>
+        <System:DateTimeOffset />
+    </Models:WeatherMetrics.SunriseTime>
+    <Models:WeatherMetrics.SunsetTime>
+        <System:DateTimeOffset />
+    </Models:WeatherMetrics.SunsetTime>
+</Models:WeatherMetrics>
