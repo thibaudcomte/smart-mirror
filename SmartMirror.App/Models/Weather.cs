@@ -107,7 +107,8 @@ namespace SmartMirror.App.Models
 
                     if (json["cod"].Value<int>() == 200)
                     {
-                        for (int i = 0; i < json["cnt"].Value<int>(); i++)
+                        var count = Math.Min(_ResultCount, json["cnt"].Value<int>());
+                        for (int i = 0; i < count; i++)
                         {
                             WeekForecasts.Add(new WeatherMetrics
                             {
@@ -124,10 +125,7 @@ namespace SmartMirror.App.Models
                     }
                 }
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            catch { }
 
             WeatherChanged?.Invoke(this, EventArgs.Empty);
 
