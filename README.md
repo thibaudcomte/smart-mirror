@@ -2,6 +2,8 @@
 
 This __Smart Mirror App__ application runs on the Universal Windows Platform, UWP.
 
+![smart mirror app running of desktop](ui.png)
+
 ## Supported Features
 
 At the current stage of development the following capabilities are present:
