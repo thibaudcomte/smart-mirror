@@ -7,9 +7,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace SmartMirror.App.Controls
 {
-    public sealed partial class WeatherMetricsControl : UserControl
+    public sealed partial class WeatherMetricsDetailedControl : UserControl
     {
-        public WeatherMetricsControl()
+        public WeatherMetricsDetailedControl()
         {
             this.InitializeComponent();
         }
@@ -22,6 +22,6 @@ namespace SmartMirror.App.Controls
 
         public static readonly DependencyProperty WeatherMetricsProperty =
             DependencyProperty.Register("WeatherMetrics", typeof(WeatherMetrics),
-                typeof(WeatherMetricsControl), new PropertyMetadata(null));
+                typeof(WeatherMetricsDetailedControl), new PropertyMetadata(null));
     }
 }

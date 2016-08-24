@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="SmartMirror.App.Controls.WeatherMetricsControl"
+    x:Class="SmartMirror.App.Controls.WeatherMetricsDetailedControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Converters="using:SmartMirror.App.Converters"
@@ -110,8 +110,7 @@
             Grid.Row="3"
             Margin="0,0,0,16"
             HorizontalAlignment="Center"
-            Orientation="Horizontal"
-            Visibility="{Binding SunTimeAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Orientation="Horizontal">
             <TextBlock
                 VerticalAlignment="Center"
                 FontSize="20"

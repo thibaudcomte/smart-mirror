@@ -17,12 +17,6 @@
     <Page.Resources>
         <Clock:DateToTextConverter x:Key="DateToTextConverter" />
         <Clock:TimeToTextConverter x:Key="TimeToTextConverter" />
-        <Weather:IconNameToImageSourceConverter x:Key="IconNameToImageSourceConverter" />
-        <Weather:SunriseSunsetTimeTextConverter x:Key="SunriseSunsetTimeTextConverter" />
-        <Weather:CloudinessTextConverter x:Key="CloudinessTextConverter" />
-        <Weather:WindSpeedTextConverter x:Key="WindSpeedTextConverter" />
-        <Weather:DateTimeOffsetTextConverter x:Key="DateTimeOffsetTextConverter" />
-        <Weather:TemperatureTextConverter x:Key="TemperatureTextConverter" />
     </Page.Resources>
 
     <Page.DataContext>
@@ -31,43 +25,90 @@
 
     <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Grid Margin="12">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid Margin="24">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1">
-                <TextBlock
-                    HorizontalAlignment="Right"
-                    FontSize="148"
-                    Text="{Binding CurrentDateTime, Converter={StaticResource TimeToTextConverter}}" />
-                <TextBlock
-                    Margin="0,8,0,0"
-                    HorizontalAlignment="Right"
-                    FontSize="36"
-                    Text="{Binding CurrentDateTime, Converter={StaticResource DateToTextConverter}}" />
-            </StackPanel>
+            <Grid HorizontalAlignment="Left">
 
-            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="72" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <controls:WeatherMetricsDetailedControl WeatherMetrics="{Binding CurrentWeatherMetrics}" />
+
+                <ListBox
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="{x:Null}"
+                    FontFamily="{Binding FontFamily, ElementName=page}"
+                    IsSynchronizedWithCurrentItem="False"
+                    ItemsSource="{Binding ForecastWeatherMetrics}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0,0,16,0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Grid>
+                                            <ContentPresenter
+                                                Margin="{TemplateBinding Padding}"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <controls:WeatherMetricsSimpleControl WeatherMetrics="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+
+            <StackPanel Grid.Column="2">
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    FontSize="124"
+                    Text="{Binding CurrentDateTime, Converter={StaticResource TimeToTextConverter}}" />
+
                 <TextBlock
                     Margin="0,16,0,0"
                     HorizontalAlignment="Right"
                     FontSize="32"
-                    Text="{Binding CurrentEphemeris}" />
+                    Text="{Binding CurrentDateTime, Converter={StaticResource DateToTextConverter}}" />
+
                 <TextBlock
-                    Margin="0,72,0,0"
+                    Margin="0,24,0,0"
                     HorizontalAlignment="Right"
-                    FontSize="28"
+                    Opacity="0.75"
+                    FontSize="32"
+                    Text="{Binding CurrentEphemeris}" />
+
+                <TextBlock
+                    Margin="0,96,0,0"
+                    HorizontalAlignment="Right"
+                    FontSize="24"
+                    FontStyle="Italic"
                     Text="{Binding QuoteOfTheDay.Text}"
                     TextAlignment="Right"
-                    TextWrapping="Wrap" FontStyle="Italic" />
+                    TextWrapping="Wrap" />
+
                 <TextBlock
                     Margin="0,16,0,0"
                     HorizontalAlignment="Right"
@@ -76,47 +117,6 @@
                     FontStyle="Italic"
                     Text="{Binding QuoteOfTheDay.Source}" />
             </StackPanel>
-
-            <controls:WeatherMetricsControl
-                Margin="0,24"
-                HorizontalAlignment="Center"
-                WeatherMetrics="{Binding CurrentWeatherMetrics}" />
-
-            <ListBox
-                Grid.Row="1"
-                VerticalAlignment="Top"
-                Background="{x:Null}"
-                FontFamily="{Binding FontFamily, ElementName=page}"
-                IsSynchronizedWithCurrentItem="False"
-                ItemsSource="{Binding ForecastWeatherMetrics}" Margin="0,0,24,0">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Padding" Value="0,0,16,0" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Grid>
-                                        <ContentPresenter
-                                            Margin="{TemplateBinding Padding}"
-                                            Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <controls:WeatherMetricsControl WeatherMetrics="{Binding}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
 
         </Grid>
 

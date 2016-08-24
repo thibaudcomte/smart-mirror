@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="SmartMirror.App.Controls.WeatherMetricsSimpleControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="using:SmartMirror.App.Converters"
+    xmlns:Weather="using:SmartMirror.App.Converters.Weather"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:SmartMirror.App.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="me"
+    d:DesignHeight="200"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Weather:DateTimeOffsetTextConverter x:Key="DateTimeOffsetTextConverter" />
+        <Weather:TemperatureTextConverter x:Key="TemperatureTextConverter" />
+        <Weather:IconNameToImageSourceConverter x:Key="IconNameToImageSourceConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        Margin="16"
+        d:DataContext="{d:DesignData /SampleData/WeatherMetricsSampleData.xaml}"
+        DataContext="{Binding WeatherMetrics, ElementName=me}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Image
+                Height="32"
+                VerticalAlignment="Center"
+                Source="{Binding IconName, Converter={StaticResource IconNameToImageSourceConverter}}" />
+            <TextBlock
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="32"
+                Text="{Binding Temp, Converter={StaticResource TemperatureTextConverter}}" />
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="0,12"
+            HorizontalAlignment="Center"
+            FontSize="20"
+            Text="{Binding Description}" />
+
+        <TextBlock
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Opacity="0.75"
+            FontSize="16"
+            Text="{Binding DateTime, Converter={StaticResource DateTimeOffsetTextConverter}}" />
+
+    </Grid>
+
+</UserControl>

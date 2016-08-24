@@ -19,7 +19,7 @@ namespace SmartMirror.App.Models
         public DateTimeOffset DateTime { get; set; }
         public DateTimeOffset SunsetTime { get; set; }
         public DateTimeOffset SunriseTime { get; set; }
-        public bool SunTimeAvailable { get; set; } = true;
+        public bool Detailed { get; set; } = true;
         public string IconName { get; set; }
     }
 
@@ -89,7 +89,7 @@ namespace SmartMirror.App.Models
                     if (json["cod"].Value<int>() == 200)
                     {
                         TodayMetrics = new WeatherMetrics();
-                        TodayMetrics.Description = json["weather"][0]["description"].Value<string>();
+                        TodayMetrics.Description = json["weather"][0]["description"].Value<string>().ToLower();
                         TodayMetrics.Temp = json["main"]["temp"].Value<double>();
                         TodayMetrics.Humidity = json["main"]["humidity"].Value<int>();
                         TodayMetrics.WindSpeed = json["wind"]["speed"].Value<double>();
@@ -108,18 +108,15 @@ namespace SmartMirror.App.Models
                     if (json["cod"].Value<int>() == 200)
                     {
                         var count = Math.Min(_ResultCount, json["cnt"].Value<int>());
-                        for (int i = 0; i < count; i++)
+                        for (int i = 1; i < count; i++)
                         {
                             WeekForecasts.Add(new WeatherMetrics
                             {
                                 Temp = json["list"][i]["main"]["temp"].Value<double>(),
-                                Humidity = json["list"][i]["main"]["humidity"].Value<int>(),
-                                Description = json["list"][i]["weather"][0]["description"].Value<string>(),
-                                Cloudiness = json["list"][i]["clouds"]["all"].Value<int>(),
-                                WindSpeed = json["list"][i]["wind"]["speed"].Value<double>(),
+                                Description = json["list"][i]["weather"][0]["description"].Value<string>().ToLower(),
                                 DateTime = DateTimeOffset.FromUnixTimeSeconds(json["list"][i]["dt"].Value<long>()),
                                 IconName = json["list"][i]["weather"][0]["icon"].Value<string>(),
-                                SunTimeAvailable = false
+                                Detailed = false
                             });
                         }
                     }

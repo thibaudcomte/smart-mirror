@@ -101,8 +101,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WeatherMetricsControl.xaml.cs">
-      <DependentUpon>WeatherMetricsControl.xaml</DependentUpon>
+    <Compile Include="Controls\WeatherMetricsSimpleControl.xaml.cs">
+      <DependentUpon>WeatherMetricsSimpleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WeatherMetricsDetailedControl.xaml.cs">
+      <DependentUpon>WeatherMetricsDetailedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\Clock\DateToTextConverter.cs" />
@@ -207,7 +210,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\WeatherMetricsControl.xaml">
+    <Page Include="Controls\WeatherMetricsSimpleControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\WeatherMetricsDetailedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
