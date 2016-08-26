@@ -45,7 +45,7 @@ namespace SmartMirror.App.Models
                 var country = json["weather"]["country"].Value<string>();
 
                 _UriCurrent = $@"http://api.openweathermap.org/data/2.5/weather?q={city},{country}&units=metric&appId={appIdKey}";
-                _UriForecast = $@"http://api.openweathermap.org/data/2.5/forecast?q={city},{country}&units=metric&cnt={_ResultCount}&appId={appIdKey}";
+                _UriForecast = $@"http://api.openweathermap.org/data/2.5/forecast?q={city},{country}&units=metric&appId={appIdKey}";
             }
             catch (Exception)
             {
@@ -107,17 +107,25 @@ namespace SmartMirror.App.Models
 
                     if (json["cod"].Value<int>() == 200)
                     {
-                        var count = Math.Min(_ResultCount, json["cnt"].Value<int>());
-                        for (int i = 1; i < count; i++)
+                        var count = json["cnt"].Value<int>();
+                        for (int i = 0; i < count; i++)
                         {
+                            var dt = DateTimeOffset.FromUnixTimeSeconds(json["list"][i]["dt"].Value<long>());
+
+                            if (dt < TimerServices.Instance.DateTime)
+                                continue;
+
                             WeekForecasts.Add(new WeatherMetrics
                             {
                                 Temp = json["list"][i]["main"]["temp"].Value<double>(),
                                 Description = json["list"][i]["weather"][0]["description"].Value<string>().ToLower(),
-                                DateTime = DateTimeOffset.FromUnixTimeSeconds(json["list"][i]["dt"].Value<long>()),
+                                DateTime = dt,
                                 IconName = json["list"][i]["weather"][0]["icon"].Value<string>(),
                                 Detailed = false
                             });
+
+                            if (WeekForecasts.Count >= _ResultCount)
+                                break;
                         }
                     }
                 }
