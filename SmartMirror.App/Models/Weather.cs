@@ -77,12 +77,14 @@ namespace SmartMirror.App.Models
 
         private async Task<bool> Update()
         {
+            TodayMetrics = null;
+            WeekForecasts.Clear();
+
             try
             {
                 using (var client = new HttpClient())
                 {
                     // current weather
-                    TodayMetrics = null;
                     var text = await client.GetStringAsync(_UriCurrent);
                     var json = (JObject)JsonConvert.DeserializeObject(text);
 
@@ -101,7 +103,6 @@ namespace SmartMirror.App.Models
                     }
 
                     // 5-day weather forecast
-                    WeekForecasts.Clear();
                     text = await client.GetStringAsync(_UriForecast);
                     json = (JObject)JsonConvert.DeserializeObject(text);
 
@@ -112,7 +113,7 @@ namespace SmartMirror.App.Models
                         {
                             var dt = DateTimeOffset.FromUnixTimeSeconds(json["list"][i]["dt"].Value<long>());
 
-                            if (dt < TimerServices.Instance.DateTime)
+                            if (TimerServices.Instance.DateTime.CompareTo(dt.DateTime) > 0)
                                 continue;
 
                             WeekForecasts.Add(new WeatherMetrics

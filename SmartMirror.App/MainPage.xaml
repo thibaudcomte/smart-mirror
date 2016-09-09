@@ -41,7 +41,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <controls:WeatherMetricsDetailedControl WeatherMetrics="{Binding CurrentWeatherMetrics}" />
+                <controls:WeatherMetricsDetailedControl WeatherMetrics="{Binding CurrentWeatherMetrics, Mode=OneWay}" />
 
                 <ListBox
                     Grid.Row="2"
@@ -49,8 +49,7 @@
                     VerticalAlignment="Top"
                     Background="{x:Null}"
                     FontFamily="{Binding FontFamily, ElementName=page}"
-                    IsSynchronizedWithCurrentItem="False"
-                    ItemsSource="{Binding ForecastWeatherMetrics}">
+                    ItemsSource="{Binding ForecastWeatherMetrics, Mode=OneWay}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Padding" Value="0,0,16,0" />

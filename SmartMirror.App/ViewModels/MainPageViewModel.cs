@@ -1,5 +1,6 @@
 ﻿using SmartMirror.App.Models;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -19,6 +20,8 @@ namespace SmartMirror.App.ViewModels
 
             _quote = new Quote();
             _quote.QuoteOfTheDayChanged += QuoteOfTheDayChanged;
+
+            ForecastWeatherMetrics = new ObservableCollection<WeatherMetrics>();
 
             _weather = new Weather();
             _weather.WeatherChanged += WeatherChanged;
@@ -66,12 +69,7 @@ namespace SmartMirror.App.ViewModels
         }
         private WeatherMetrics _currentWeatherMetrics;
 
-        public WeatherMetricsList ForecastWeatherMetrics
-        {
-            get { return _forecastWeatherMetrics; }
-            private set { _forecastWeatherMetrics = value; RaisePropertyChanged(nameof(ForecastWeatherMetrics)); }
-        }
-        private WeatherMetricsList _forecastWeatherMetrics;
+        public ObservableCollection<WeatherMetrics> ForecastWeatherMetrics { get; private set; }
 
         #region internals
 
@@ -99,7 +97,8 @@ namespace SmartMirror.App.ViewModels
                 CoreDispatcherPriority.Normal, () =>
                 {
                     CurrentWeatherMetrics = _weather.TodayMetrics;
-                    ForecastWeatherMetrics = _weather.WeekForecasts;
+                    ForecastWeatherMetrics.Clear();
+                    _weather.WeekForecasts.ForEach((i) => { ForecastWeatherMetrics.Add(i); });
                 });
         }
 
